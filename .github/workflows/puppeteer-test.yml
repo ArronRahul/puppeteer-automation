@@ -1,6 +1,7 @@
 name: Puppeteer
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - '**'

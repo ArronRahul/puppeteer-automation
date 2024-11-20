@@ -22,30 +22,30 @@ async function handleActions(page) {
     { selector: "img[src='https://oscaremr.quipohealth.com/oscar/images/videocall.png']", name: "Video", action: videoFunction }
   ];
 
-   // Extract phone numbers and appointment links
-   const result = await page.evaluate(() => {
-    // Clean up function to trim and remove unwanted characters
-    const cleanText = (text) => text?.replace(/\s*\|\s*$/, '').trim(); // Remove trailing pipe and trim spaces
+  //  // Extract phone numbers and appointment links
+  //  const result = await page.evaluate(() => {
+  //   // Clean up function to trim and remove unwanted characters
+  //   const cleanText = (text) => text?.replace(/\s*\|\s*$/, '').trim(); // Remove trailing pipe and trim spaces
 
-    // Extract phone numbers
-    const numbers = Array.from(document.querySelectorAll('a.walkinButton')).map(element => {
-      return cleanText(element?.nextSibling?.textContent);
-    }).filter(Boolean);
+  //   // Extract phone numbers
+  //   const numbers = Array.from(document.querySelectorAll('a.walkinButton')).map(element => {
+  //     return cleanText(element?.nextSibling?.textContent);
+  //   }).filter(Boolean);
 
-    // Extract appointment links
-    const apptLinks = Array.from(document.querySelectorAll('.apptLink')).map(element => {
-      return cleanText(element?.textContent) || null; // Use textContent or fallback to null
-    });
+  //   // Extract appointment links
+  //   const apptLinks = Array.from(document.querySelectorAll('.apptLink')).map(element => {
+  //     return cleanText(element?.textContent) || null; // Use textContent or fallback to null
+  //   });
 
-    // Pair phone numbers with corresponding appointment links
-    return numbers.map((number, index) => ({
-      number,
-      apptLink: apptLinks[index] || null, // Pair with apptLink or null if not available
-    }));
+  //   // Pair phone numbers with corresponding appointment links
+  //   return numbers.map((number, index) => ({
+  //     number,
+  //     apptLink: apptLinks[index] || null, // Pair with apptLink or null if not available
+  //   }));
     
-  });
+  // });
 
-  console.log('Result:', result);
+  // console.log('Result:', result);
 
   for (const item of selectors) {
     const element = await page.$(item.selector);

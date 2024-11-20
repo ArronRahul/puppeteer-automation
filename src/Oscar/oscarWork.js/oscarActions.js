@@ -42,6 +42,7 @@ async function handleActions(page) {
       number,
       apptLink: apptLinks[index] || null, // Pair with apptLink or null if not available
     }));
+    
   });
 
   console.log('Result:', result);

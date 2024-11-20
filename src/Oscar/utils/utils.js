@@ -26,6 +26,18 @@ async function waitAndType(page, selector, text, timeout = 10000) {
     await page.goto(url, options);
     console.log(`Navigated to URL: ${url}`);
   }
+
+  async function findNearestApptLink(page, selector) {
+    return await page.evaluate((selector) => {
+      const element = document.querySelector(selector);
+      if (element) {
+        console.log(`Found nearest app link for ${selector}`);
+        const nearestApptLink = element.closest('.apptLink');
+        return nearestApptLink ? nearestApptLink.innerHTML : null;
+      }
+      return null; 
+    }, selector);
+  }
   
-  module.exports = { waitAndType, waitAndClick, waitForNavigation, navigateToUrl, waitAndCheck };
+  module.exports = { waitAndType, waitAndClick, waitForNavigation, navigateToUrl, waitAndCheck,  findNearestApptLink};
   

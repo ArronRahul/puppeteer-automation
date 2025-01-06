@@ -2,9 +2,9 @@
 const puppeteer = require('puppeteer');
 const { waitAndType, waitAndClick, waitForNavigation, navigateToUrl } = require('../utils/utils');  // Import navigateToUrl
 
-async function launchBrowser(extensionPath) {
+async function launchBrowser(extensionPath, head) {
     return await puppeteer.launch({
-        headless: true,
+        headless: head,
         timeout: 1200000,
         args: [
             '--no-sandbox',

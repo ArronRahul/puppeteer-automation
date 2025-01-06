@@ -1,6 +1,6 @@
 // oscarActions.js
-const { waitAndClick, navigateToUrl, waitForNavigation, waitAndCheck } = require('../utils/utils');
-const { checkEMR } = require('./enCounter');
+const { navigateToUrl, waitForNavigation, waitAndCheck, waitAndClick } = require('../utils/utils');
+const { checkExtensionData, launchExtesion} = require('../utils/helper');
 
 async function findAppointment(page) {
   await waitAndCheck(page, '#mygroup_no');
@@ -16,29 +16,35 @@ async function findAppointment(page) {
 }
 
 async function handleActions(page) {
-  const selectors = [
-    { selector: "img[alt='Video Call Icon']", name: "Voice", action: voiceCallFunction },
-    { selector: "img[src='../images/walkin.png']", name: "Walkin", action: walkinFunction },
-    { selector: "img[src='https://oscaremr.quipohealth.com/oscar/images/videocall.png']", name: "Video", action: videoFunction }
-  ];
 
+  const selectors = [
+    { pname: "Joe,Ashik", number: " (613) 454-6546 | ", selector: "img[src='../images/walkin.png']", name: "Walkin", action: walkinFunction },
+    { pname: "Krishna,Abhinav", number: " (613) 454-6546 | ", selector: "img[alt='Video Call Icon']", name: "Video", action: videoFunction},
+    { pname: "Thomas,Priya", number: " (613) 456-0988 | ", selector: "img[src='https://oscaremr.quipohealth.com/oscar/images/audio.png']", name: "Voice", action: voiceCallFunction }
+  ];
+  
   for (const item of selectors) {
     const element = await page.$(item.selector);
     const visible = !!element;
     console.log(`${item.name} element is ${visible ? 'available' : 'not available'} on the page.`);
-    if (visible) await item.action(page);
+    if (visible){
+      await launchExtesion(page, item.pname, item.number, item.selector);
+      await item.action(page, item.pname, item.number, item.selector);
+    }
   }
 }
 
-async function voiceCallFunction(page) {
+
+async function walkinFunction(page,name,number,selector) {
+  console.log('Executed walk-in action...');
+}
+
+
+async function voiceCallFunction(page,name,number,selector) {
   console.log('Executing voice call action...');
 }
 
-async function walkinFunction(page) {
-  console.log('Executing walk-in action...');
-}
-
-async function videoFunction(page) {
+async function videoFunction(page,name,number,selector) {
   console.log('Executing video call action...');
 }
 
